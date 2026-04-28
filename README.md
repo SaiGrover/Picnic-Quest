@@ -545,18 +545,6 @@ mask |= (1 << item_id);
 
 ---
 
-## 🧠 Important Viva Questions
-
-### 🔹 Conceptual
-
-1. What is Sprague–Grundy theorem?
-2. Why is mex used instead of min/max?
-3. What makes your game impartial?
-4. Why is Grundy value 0 considered losing?
-5. How do you handle cycles in Grundy recursion?
-
----
-
 # ✅ Conclusion
 
 ### 🔹 Summary & Achievement of Objectives
