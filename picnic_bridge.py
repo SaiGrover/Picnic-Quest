@@ -35,13 +35,26 @@ def ensure_compiled():
     return True
     
 def _run(mode, stdin_data="", timeout=20):
+    if not ensure_compiled():
+        return "", "Compilation failed"
+
     try:
-        r = subprocess.run([CPP_BIN, mode], input=stdin_data,
-                           capture_output=True, text=True,
-                           encoding="utf-8", errors="ignore", timeout=timeout)
+        r = subprocess.run(
+            [CPP_BIN, mode],
+            input=stdin_data,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="ignore",
+            timeout=timeout
+        )
         return r.stdout, r.stderr
-    except subprocess.TimeoutExpired: return "", "TIMEOUT"
-    except FileNotFoundError: return "", "Binary not found"
+
+    except subprocess.TimeoutExpired:
+        return "", "TIMEOUT"
+
+    except FileNotFoundError:
+        return "", "Binary not found"
 
 def _run_timed(mode, stdin_data="", timeout=20):
     t0 = time.perf_counter()
