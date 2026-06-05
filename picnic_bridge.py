@@ -7,7 +7,12 @@ import streamlit as st
 
 _DIR     = os.path.dirname(os.path.abspath(__file__))
 CPP_SRC  = os.path.join(_DIR, "game_engine.cpp")
-CPP_BIN = os.path.join(_DIR, "picnic_engine.exe")
+import platform
+
+CPP_BIN = os.path.join(
+    _DIR,
+    "picnic_engine.exe" if platform.system() == "Windows" else "picnic_engine"
+)
 
 BOARD_SIZE    = 36
 INITIAL_MONEY = 10
@@ -16,7 +21,19 @@ def compile_engine():
     r = subprocess.run(["g++","-O2","-std=c++17","-o",CPP_BIN,CPP_SRC],
                        capture_output=True, text=True)
     return r.returncode == 0, r.stderr
+    
+def ensure_compiled():
+    if os.path.exists(CPP_BIN):
+        return True
 
+    ok, err = compile_engine()
+
+    if not ok:
+        st.error(f"Failed to compile C++ engine:\n{err}")
+        return False
+
+    return True
+    
 def _run(mode, stdin_data="", timeout=20):
     try:
         r = subprocess.run([CPP_BIN, mode], input=stdin_data,
