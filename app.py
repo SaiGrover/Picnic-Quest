@@ -7,6 +7,11 @@ import streamlit as st, random, time, os, sys, math
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
+import subprocess
+import os
+import sys
+import time
+import platform
 
 st.set_page_config(page_title="🏕️ Picnic Quest", page_icon="🏕️",
                    layout="wide", initial_sidebar_state="expanded")
